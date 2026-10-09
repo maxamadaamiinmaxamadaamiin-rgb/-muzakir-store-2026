@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>متجر المذكرات التعليمية - Muzakir Store</title>
+    <title>متجر المذكرات التعليمية</title>
     <style>
         * {
             box-sizing: border-box;
@@ -13,25 +13,26 @@
         }
 
         body {
-            background-color: #f0f2f5;
+            background-color: #f4f7f6;
             color: #333;
-            min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
+            min-height: 100vh;
             padding: 20px;
         }
 
         .container {
             background-color: #ffffff;
             width: 100%;
-            max-width: 900px;
+            max-width: 600px;
             padding: 40px 30px;
             border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
             text-align: center;
         }
 
+        /* التحكم في ظهور الصفحات */
         .page {
             display: none;
         }
@@ -47,57 +48,265 @@
         }
 
         h1 {
-            color: #1a2a3a;
+            color: #2c3e50;
             margin-bottom: 15px;
-            font-size: 28px;
+            font-size: 26px;
         }
 
-        p.description {
+        p {
             color: #666;
             font-size: 16px;
             line-height: 1.6;
             margin-bottom: 30px;
         }
 
-        .btn-main {
+        .btn {
             background-color: #27ae60;
             color: white;
             border: none;
-            padding: 14px 40px;
+            padding: 14px 32px;
             font-size: 18px;
             font-weight: bold;
             border-radius: 8px;
             cursor: pointer;
-            transition: 0.3s;
+            transition: background 0.3s;
+            width: 100%;
         }
 
-        .btn-main:hover {
+        .btn:hover {
             background-color: #219150;
         }
 
-        /* المتجر وتحديد المواد */
-        .store-header {
-            border-bottom: 2px solid #eee;
-            padding-bottom: 20px;
-            margin-bottom: 25px;
+        /* شبكة المنتجات في الصفحة الثالثة */
+        .products-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            margin-top: 20px;
+            text-align: right;
         }
 
-        .subjects-section {
+        .product-card {
+            border: 1px solid #e1e8ed;
+            padding: 20px;
+            border-radius: 12px;
+            background: #fafafa;
+        }
+
+        .product-card h3 {
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+
+        .price {
+            color: #e74c3c;
+            font-weight: bold;
+            font-size: 18px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        <!-- الصفحة الأولى: الترحيب الأول -->
+        <div id="page1" class="page active">
+            <h1>أهلاً وسهلاً بك 👋</h1>
+            <p>مرحباً بك في منصتنا الخاصة بالمذكرات والكتب التعليمية الرقمية. يسعدنا جداً حضورك هنا!</p>
+            <button class="btn" onclick="showPage('page2')">دخول المتجر</button>
+        </div>
+
+        <!-- الصفحة الثانية: الشكر والترحيب -->
+        <div id="page2" class="page">
+            <h1>شكراً لزيارتك ❤️</h1>
+            <p>نحن حريصون على تقديم أفضل المحتويات التعليمية والملخصات لمساعدتك في تحقيق أعلى الدرجات.</p>
+            <button class="btn" onclick="showPage('page3')">استعراض المذكرات</button>
+        </div>
+
+        <!-- الصفحة الثالثة: المتجر والمنتجات -->
+        <div id="page3" class="page">
+            <h1>المذكرات المتاحة 📚</h1>
+            <p>اختر المذكرة التي تريدها للتحميل المباشر:</p>
+
+            <div class="products-grid">
+                <div class="product-card">
+                    <h3>مذكرة التميز الرقمية 2026</h3>
+                    <p>ملخص شامل لجميع المواد مع أسئلة وإجابات النموذجية.</p>
+                    <div class="price">$10.00</div>
+                    <button class="btn" onclick="alert('سيتم توجيهك لشراء المذكرة')">شراء وتحميل الان</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        function showPage(pageId) {
+            // إخفاء جميع الصفحات
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => page.classList.remove('active'));
+
+            // إظهار الصفحة المطلوبة
+            document.getElementById(pageId).classList.add('active');
+        }
+    </script>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>متجر المذكرات التعليمية</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #f4f7f6;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            background-color: #ffffff;
+            width: 100%;
+            max-width: 600px;
+            padding: 40px 30px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            text-align: center;
+        }
+
+        /* التحكم في ظهور الصفحات */
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+            animation: fadeIn 0.4s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 26px;
+        }
+
+        p {
+            color: #666;
+            font-size: 16px;
+            line-height: 1.6;
             margin-bottom: 30px;
         }
 
-        .subjects-grid {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            flex-wrap: wrap;
-            margin-top: 15px;
+        .btn {
+            background-color: #27ae60;
+            color: white;
+            border: none;
+            padding: 14px 32px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s;
+            width: 100%;
         }
 
-        .subject-btn {
-            background-color: #eef2f7;
+        .btn:hover {
+            background-color: #219150;
+        }
+
+        /* شبكة المنتجات في الصفحة الثالثة */
+        .products-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            margin-top: 20px;
+            text-align: right;
+        }
+
+        .product-card {
+            border: 1px solid #e1e8ed;
+            padding: 20px;
+            border-radius: 12px;
+            background: #fafafa;
+        }
+
+        .product-card h3 {
             color: #2c3e50;
-            border: 2px solid #cbd5e1;
-            padding: 12px 24px;
-            border-radius: 25px;
-            font
+            margin-bottom: 8px;
+        }
+
+        .price {
+            color: #e74c3c;
+            font-weight: bold;
+            font-size: 18px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        <!-- الصفحة الأولى: الترحيب الأول -->
+        <div id="page1" class="page active">
+            <h1>أهلاً وسهلاً بك 👋</h1>
+            <p>مرحباً بك في منصتنا الخاصة بالمذكرات والكتب التعليمية الرقمية. يسعدنا جداً حضورك هنا!</p>
+            <button class="btn" onclick="showPage('page2')">دخول المتجر</button>
+        </div>
+
+        <!-- الصفحة الثانية: الشكر والترحيب -->
+        <div id="page2" class="page">
+            <h1>شكراً لزيارتك ❤️</h1>
+            <p>نحن حريصون على تقديم أفضل المحتويات التعليمية والملخصات لمساعدتك في تحقيق أعلى الدرجات.</p>
+            <button class="btn" onclick="showPage('page3')">استعراض المذكرات</button>
+        </div>
+
+        <!-- الصفحة الثالثة: المتجر والمنتجات -->
+        <div id="page3" class="page">
+            <h1>المذكرات المتاحة 📚</h1>
+            <p>اختر المذكرة التي تريدها للتحميل المباشر:</p>
+
+            <div class="products-grid">
+                <div class="product-card">
+                    <h3>مذكرة التميز الرقمية 2026</h3>
+                    <p>ملخص شامل لجميع المواد مع أسئلة وإجابات النموذجية.</p>
+                    <div class="price">$10.00</div>
+                    <button class="btn" onclick="alert('سيتم توجيهك لشراء المذكرة')">شراء وتحميل الان</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        function showPage(pageId) {
+            // إخفاء جميع الصفحات
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => page.classList.remove('active'));
+
+            // إظهار الصفحة المطلوبة
+            document.getElementById(pageId).classList.add('active');
+        }
+    </script>
+
+</body>
+</html>
