@@ -1,1 +1,49 @@
 
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>متجر المذكرات التعليمية</title>
+    <style>
+        body { font-family: sans-serif; background: #f4f7f6; margin: 0; padding: 20px; text-align: center; }
+        .header { background: #2c3e50; color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; }
+        .card { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); max-width: 400px; margin: 0 auto 20px; }
+        .price { font-size: 1.5rem; color: #27ae60; font-weight: bold; margin: 10px 0; }
+        .btn { background: #3498db; color: white; border: none; padding: 12px 20px; border-radius: 5px; cursor: pointer; font-size: 1rem; width: 100%; }
+        .box { display: none; background: white; padding: 20px; border-radius: 10px; max-width: 400px; margin: 0 auto; border: 2px dashed #27ae60; }
+        input, select { width: 90%; padding: 10px; margin: 8px 0; border: 1px solid #ccc; border-radius: 5px; }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>أهلاً وسهلاً بك في متجرنا 👋</h1>
+        <p>احصل على أفضل البنوك والمذكرات الدراسية بسهولة</p>
+    </div>
+
+    <div class="card">
+        <h3>بنك أسئلة النظم الإسلامية</h3>
+        <p>ملف شامل لجميع الأسئلة والأجوبة النموذجية.</p>
+        <div class="price">10 $</div>
+        <button class="btn" onclick="showPayment()">شراء الآن</button>
+    </div>
+
+    <div id="paymentBox" class="card" style="display:none;">
+        <h3>إتمام عملية الدفع</h3>
+        <form onsubmit="finishPayment(event)">
+            <input type="text" placeholder="الاسم الكامل" required>
+            <select required>
+                <option value="">اختر طريقة الدفع</option>
+                <option value="card">بطاقة مصرفية / الفيزا</option>
+                <option value="wallet">محفظة إلكترونية</option>
+            </select>
+            <input type="text" placeholder="رقم الإيصال / المعاملة" required>
+            <button class="btn" style="background:#27ae60;">تأكيد الدفع</button>
+        </form>
+    </div>
+
+    <div id="downloadBox" class="box">
+        <h3 style="color:#27ae60;">تم التحقق من الدفع بنجاح! 🎉</h3>
+        <p>يمكنك تحميل المادة فوراً من الرابط التالي:</p>
+        <a href="النظم_الإسلامية_بنك_أس
