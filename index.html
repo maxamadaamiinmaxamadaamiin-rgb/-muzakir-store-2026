@@ -1,118 +1,427 @@
-📖 مُذاكر.
-الرئيسية
-المواد
-كيف أشتري؟
-التسليم
-مرحبًا بك في مُذاكر
-منصتك للحصول على ملفات PDF التعليمية وبنوك الأسئلة والملخصات، لتجعل رحلتك الدراسية أسهل وأكثر تنظيمًا.
+const express = require('express');
+const path = require('path');
+const app = express();
+const PORT = process.env.PORT || 3000;
 
-♥ شكرًا لك على ثقتك بنا
-📚
-مواد أكاديمية
-مرتبة وواضحة
-🛡️
-شراء موثّق
-تأكيد قبل التسليم
-⚡
-تسليم رقمي
-بعد تأكيد الدفع
-💬
-دعم عبر واتساب
-للمساعدة في الطلب
-تصفح المواد ←
-© مُذاكر — شكرًا لثقتك بنا. جميع الحقوق محفوظة.📖 مُذاكر.
-الرئيسية
-المواد
-كيف أشتري؟
-التسليم
-جميع المواد المتاحة
-اختر المادة التي تحتاجها، ثم أضفها إلى طلبك.
+app.use(express.json());
+app.use(express.static(path.join(__dirname, 'public')));
 
-جميع المواد
-النظم الإسلامية
-اللغة العربية
-اللغة الإنجليزية
-العلوم الشرعية
-النظم
-الإسلامية
-النظم الإسلامية
-بنك أسئلة وأجوبة للمراجعة (PDF).
+// بيانات المواد التعليمية
+const products = [
+    { id: 1, name: 'اللغة الإنجليزية', category: 'english', price: 4.00, desc: 'قواعد ومفردات وتعاريف (ملف PDF)' },
+    { id: 2, name: 'اللغة العربية', category: 'arabic', price: 4.00, desc: 'قواعد وبلاغة وأدب (ملف PDF)' },
+    { id: 3, name: 'النظم الإسلامية', category: 'islamic', price: 5.00, desc: 'بنك أسئلة شامل مع الإجابات (ملف PDF)' },
+    { id: 4, name: 'اللغة العربية (اختبارات)', category: 'arabic', price: 3.00, desc: 'نماذج اختبارات وتمارين (ملف PDF)' },
+    { id: 5, name: 'الإسلامية', category: 'islamic', price: 4.00, desc: 'مناهج ودروس متنوعة (ملف PDF)' },
+    { id: 6, name: 'العلوم الشرعية', category: 'sharia', price: 5.00, desc: 'عقيدة - فقه - حديث (ملف PDF)' }
+];
 
-$5.00
-🛒 اختر هذه المادة
-اللغة
-العربية
-اللغة العربية
-قواعد وتدريبات ومراجعة (PDF).
+// API لجلب المواد
+app.get('/api/products', (req, res) => {
+    res.json(products);
+});
 
-$4.00
-🛒 اختر هذه المادة
-اللغة
-الإنجليزية
-اللغة الإنجليزية
-مفردات وقواعد وتدريبات (PDF).
+// API لمعالجة الطلب وتجهيز رابط واتساب
+app.post('/api/checkout', (req, res) => {
+    const { items, customerName, phone } = req.body;
+    const storePhone = "252631234567"; // رقم واتساب المتجر
+    
+    let total = items.reduce((sum, item) => sum + item.price, 0);
+    let itemsList = items.map(i => `- ${i.name} ($${i.price})`).join('\n');
+    
+    let message = `مرحباً متجر مُذاكر 👋\nأود إتمام شراء المواد التالية:\n${itemsList}\n\nالإجمالي: $${total}\nاسم العميل: ${customerName || 'غير محدد'}\nرقم الهاتف: ${phone || 'غير محدد'}\n\nيرجى تزويدي بتفاصيل الدفع وتحميل الملفات.`;
+    
+    let whatsappUrl = `https://wa.me/${storePhone}?text=${encodeURIComponent(message)}`;
+    
+    res.json({ success: true, whatsappUrl, orderId: Date.now() });
+});
 
-$4.00
-🛒 اختر هذه المادة
-العلوم
-الشرعية
-العلوم الشرعية
-ملخصات ومراجعة دراسية (PDF).
+app.listen(PORT, () => {
+    console.log(`Server is running on http://localhost:${PORT}`);
+});<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>متجر مُذاكر</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-$5.00
-🛒 اختر هذه المادة
-الدراسات
-الإسلامية
-الدراسات الإسلامية
-موضوعات دراسية متنوعة (PDF).
+    <!-- الهيدر التنفيذي -->
+    <header class="navbar">
+        <div class="logo">📘 مُذاكر</div>
+        <nav>
+            <a href="#home" onclick="showPage('page-home')">الرئيسية</a>
+            <a href="#products" onclick="showPage('page-products')">المواد</a>
+            <a href="#how-to-buy" onclick="showPage('page-buy')">كيف أشتري</a>
+            <a href="https://wa.me/252631234567" target="_blank">تواصل معنا</a>
+        </nav>
+        <div class="cart-icon" onclick="showPage('page-products')">
+            🛒 <span id="cart-count">0</span>
+        </div>
+    </header>
 
-$4.00
-🛒 اختر هذه المادة
-النحو
-والصرف
-النحو والصرف
-قواعد وأمثلة للتدريب (PDF).
+    <!-- الصفحة الأولى: الترحيب -->
+    <section id="page-home" class="page active">
+        <div class="hero">
+            <h1>مرحباً بك في <span>مُذاكر</span></h1>
+            <p>منصتك للحصول على أفضل ملفات PDF التعليمية بجودة عالية وبأسعار مناسبة.</p>
+            <p class="thanks">💙 شكرًا لك على ثقتك بنا</p>
+            <button class="btn-primary" onclick="showPage('page-products')">تصفح جميع المواد ➔</button>
+            
+            <div class="features-grid">
+                <div class="feature-card">📖 <h3>مواد أكاديمية مُحدثة</h3></div>
+                <div class="feature-card">⚡ <h3>تسليم فوري بعد التحقق</h3></div>
+                <div class="feature-card">🛡️ <h3>دفع آمن وموثوق</h3></div>
+                <div class="feature-card">🎧 <h3>دعم سريع عبر واتساب</h3></div>
+            </div>
+        </div>
+    </section>
 
-$3.00
-🛒 اختر هذه المادة
-متابعة إلى الشراء ←
-© مُذاكر — شكرًا لثقتك بنا. جميع الحقوق محفوظة.📖 مُذاكر.
-الرئيسية
-المواد
-كيف أشتري؟
-التسليم
-كيفية الشراء
-خطوات بسيطة لإكمال طلبك بأمان.
+    <!-- الصفحة الثانية: المواد التعليمية -->
+    <section id="page-products" class="page">
+        <div class="container">
+            <h2>جميع المواد المتاحة</h2>
+            <p class="subtitle">اختر المادة التي تحتاجها وابدأ رحلتك نحو التفوق</p>
+            
+            <div class="filter-buttons">
+                <button class="active" onclick="filterProducts('all')">جميع المواد</button>
+                <button onclick="filterProducts('islamic')">النظم الإسلامية</button>
+                <button onclick="filterProducts('arabic')">اللغة العربية</button>
+                <button onclick="filterProducts('english')">اللغة الإنجليزية</button>
+                <button onclick="filterProducts('sharia')">العلوم الشرعية</button>
+            </div>
 
-1
-اختر المادة
-اختر الملف الذي تريد شراءه.
+            <div class="products-grid" id="products-list">
+                <!-- يتم تحميل المواد ديناميكياً بواسطة JavaScript -->
+            </div>
+        </div>
+    </section>
 
-2
-أكمل بياناتك
-اكتب اسمك ورقم التواصل.
+    <!-- الصفحة الثالثة: كيفية الشراء وتأكيد الطلب -->
+    <section id="page-buy" class="page">
+        <div class="container">
+            <h2>كيفية الشراء</h2>
+            <p class="subtitle">عملية الشراء سهلة وبسيطة. فقط اتبع الخطوات التالية:</p>
 
-3
-أرسل الدفع
-اتبع تعليمات الدفع التي يوفرها البائع.
+            <div class="steps-grid">
+                <div class="step-card">
+                    <div class="step-num">1</div>
+                    <h3>اختر المادة</h3>
+                    <p>تصفح المواد المتاحة وأضف ما تريد إلى السلة</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-num">2</div>
+                    <h3>أكمل الطلب</h3>
+                    <p>راجع طلبك ثم اضغط على إتمام الشراء</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-num">3</div>
+                    <h3>قم بالدفع</h3>
+                    <p>حول المبلغ عبر الوسائل المتاحة</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-num">4</div>
+                    <h3>أرسل الإيصال</h3>
+                    <p>أرسل صورة الإيصال على واتساب</p>
+                </div>
+            </div>
 
-4
-أرسل الإيصال
-أرسل صورة الإيصال عبر واتساب للمراجعة.
+            <div class="checkout-box">
+                <h3>إتمام الشراء والطلب</h3>
+                <input type="text" id="cust-name" placeholder="الاسم الكامل">
+                <input type="text" id="cust-phone" placeholder="رقم الهاتف">
+                <div class="cart-summary" id="cart-summary">سلتك فارغة حالياً.</div>
+                <button class="btn-primary" onclick="processCheckout()">إرسال الطلب عبر واتساب 💬</button>
+            </div>
+        </div>
+    </section>
 
-مهم: لا تُدخل بيانات بطاقتك البنكية في هذه الصفحة. ستتم مراجعة إثبات الدفع يدويًا إلى أن يتم ربط بوابة دفع إلكترونية موثوقة.
-اسم العميل
-اكتب اسمك الكامل
-رقم واتساب العميل
-+252...
-المادة المختارة
+    <!-- الصفحة الرابعة: تسليم المواد -->
+    <section id="page-delivery" class="page">
+        <div class="container text-center">
+            <h2>تسليم المواد بعد التحقق من الدفع</h2>
+            <div class="delivery-card">
+                <div class="pdf-icon-wrapper">
+                    <span>PDF 📱</span>
+                </div>
+                <p>بمجرد وصول المبلغ والتحقق من الدفع سنقوم بإرسال الملفات المطلوبة إلى رقم واتسابك فوراً.</p>
+                <div class="whatsapp-badge">
+                    ✅ ستتلقى المواد في واتساب على هذا الرقم:
+                    <strong dir="ltr">+252 63 123 4567</strong>
+                </div>
+            </div>
+            <p class="footer-thanks">شكرًا وثقتك بنا <br> معاً نحو مستقبل أفضل 💙</p>
+        </div>
+    </section>
 
-النظم الإسلامية — $5.00
-المادة: النظم الإسلامية
-المبلغ: $5.00
-إرسال تفاصيل الطلب عبر واتساب
-العودة إلى المواد
-زر واتساب سيعمل بعد وضع رقم واتساب المتجر في الكود بدل النص WHATSAPP_NUMBER.
+    <script src="script.js"></script>
+</body>
+  </html><!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>متجر مُذاكر</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-© مُذاكر — شكرًا لثقتك بنا. جميع الحقوق محفوظة.
-رقم الواتساب 252 634500376
+    <!-- الهيدر التنفيذي -->
+    <header class="navbar">
+        <div class="logo">📘 مُذاكر</div>
+        <nav>
+            <a href="#home" onclick="showPage('page-home')">الرئيسية</a>
+            <a href="#products" onclick="showPage('page-products')">المواد</a>
+            <a href="#how-to-buy" onclick="showPage('page-buy')">كيف أشتري</a>
+            <a href="https://wa.me/252634500376" target="_blank" class="nav-wa">💬 واتساب: +252 63 4500376</a>
+        </nav>
+        <div class="cart-icon" onclick="showPage('page-buy')">
+            🛒 <span id="cart-count">0</span>
+        </div>
+    </header>
+
+    <!-- الصفحة الأولى: الترحيب -->
+    <section id="page-home" class="page active">
+        <div class="hero">
+            <h1>مرحباً بك في <span>مُذاكر</span></h1>
+            <p>منصتك للحصول على أفضل ملفات PDF التعليمية بجودة عالية وبأسعار مناسبة.</p>
+            <p class="thanks">💙 شكرًا لك على ثقتك بنا</p>
+            <button class="btn-primary" onclick="showPage('page-products')">تصفح جميع المواد ➔</button>
+            
+            <div class="features-grid">
+                <div class="feature-card">📖 <h3>مواد أكاديمية مُحدثة</h3></div>
+                <div class="feature-card">⚡ <h3>تسليم فوري بعد التحقق</h3></div>
+                <div class="feature-card">🛡️ <h3>دفع آمن وموثوق</h3></div>
+                <div class="feature-card">🎧 <h3>دعم سريع عبر واتساب</h3></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- الصفحة الثانية: المواد التعليمية (صفحة البيع) -->
+    <section id="page-products" class="page">
+        <div class="container">
+            <h2>جميع المواد المتاحة</h2>
+            <p class="subtitle">اختر المادة التي تحتاجها وابدأ رحلتك نحو التفوق</p>
+            
+            <!-- شريط الواتساب المباشر للاستفسار في صفحة البيع -->
+            <div class="whatsapp-banner">
+                <span>💬 للطلب المباشر أو الاستفسار عبر الواتساب: </span>
+                <a href="https://wa.me/252634500376" target="_blank" dir="ltr">+252 63 4500376</a>
+            </div>
+
+            <div class="filter-buttons">
+                <button class="active" onclick="filterProducts('all')">جميع المواد</button>
+                <button onclick="filterProducts('islamic')">النظم الإسلامية</button>
+                <button onclick="filterProducts('arabic')">اللغة العربية</button>
+                <button onclick="filterProducts('english')">اللغة الإنجليزية</button>
+                <button onclick="filterProducts('sharia')">العلوم الشرعية</button>
+            </div>
+
+            <div class="products-grid" id="products-list"></div>
+        </div>
+    </section>
+
+    <!-- الصفحة الثالثة: الشراء وكيفية الطلب (صفحة الشراء) -->
+    <section id="page-buy" class="page">
+        <div class="container">
+            <h2>كيفية الشراء والطلب</h2>
+            <p class="subtitle">عملية الشراء سهلة وبسيطة. فقط اتبع الخطوات التالية:</p>
+
+            <div class="steps-grid">
+                <div class="step-card">
+                    <div class="step-num">1</div>
+                    <h3>اختر المادة</h3>
+                    <p>تصفح المواد المتاحة وأضف ما تريد إلى السلة</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-num">2</div>
+                    <h3>أكمل الطلب</h3>
+                    <p>راجع طلبك وأدخل بياناتك أدناه</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-num">3</div>
+                    <h3>قم بالدفع</h3>
+                    <p>حول المبلغ عبر الوسائل المتاحة</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-num">4</div>
+                    <h3>أرسل الإيصال</h3>
+                    <p>أرسل صورة الإيصال إلى واتساب المتجر</p>
+                </div>
+            </div>
+
+            <div class="checkout-box">
+                <h3>تفاصيل الطلب والدفع</h3>
+                <div class="whatsapp-support-box">
+                    📱 رقم واتساب استقبال الطلبات والإيصالات:
+                    <br>
+                    <a href="https://wa.me/252634500376" target="_blank" class="wa-link" dir="ltr">+252 63 4500376</a>
+                </div>
+
+                <input type="text" id="cust-name" placeholder="الاسم الكامل">
+                <input type="text" id="cust-phone" placeholder="رقم هاتفك للتواصل">
+                <div class="cart-summary" id="cart-summary">سلتك فارغة حالياً.</div>
+                <button class="btn-primary btn-whatsapp" onclick="processCheckout()">
+                    إرسال الطلب وإيصال الدفع عبر واتساب 💬
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- الصفحة الرابعة: تسليم المواد -->
+    <section id="page-delivery" class="page">
+        <div class="container text-center">
+            <h2>تسليم المواد بعد التحقق من الدفع</h2>
+            <div class="delivery-card">
+                <div class="pdf-icon-wrapper">
+                    <span>PDF 📱</span>
+                </div>
+                <p>بمجرد وصول المبلغ والتحقق من الدفع سنقوم بإرسال الملفات المطلوبة إلى رقم واتسابك فوراً.</p>
+                <div class="whatsapp-badge">
+                    ✅ ستتلقى المواد في واتساب على هذا الرقم:
+                    <br>
+                    <a href="https://wa.me/252634500376" target="_blank" style="color:#2e7d32; font-weight:bold;" dir="ltr">+252 63 4500376</a>
+                </div>
+            </div>
+            <p class="footer-thanks">شكرًا وثقتك بنا <br> معاً نحو مستقبل أفضل 💙</p>
+        </div>
+    </section>
+
+    <script src="script.js"></script>
+</body>
+  </html><!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>متجر مُذاكر</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- الهيدر التنفيذي -->
+    <header class="navbar">
+        <div class="logo">📘 مُذاكر</div>
+        <nav>
+            <a href="#home" onclick="showPage('page-home')">الرئيسية</a>
+            <a href="#products" onclick="showPage('page-products')">المواد</a>
+            <a href="#how-to-buy" onclick="showPage('page-buy')">كيف أشتري</a>
+            <a href="https://wa.me/252634500376" target="_blank" class="nav-wa">💬 واتساب: +252 63 4500376</a>
+        </nav>
+        <div class="cart-icon" onclick="showPage('page-buy')">
+            🛒 <span id="cart-count">0</span>
+        </div>
+    </header>
+
+    <!-- الصفحة الأولى: الترحيب -->
+    <section id="page-home" class="page active">
+        <div class="hero">
+            <h1>مرحباً بك في <span>مُذاكر</span></h1>
+            <p>منصتك للحصول على أفضل ملفات PDF التعليمية بجودة عالية وبأسعار مناسبة.</p>
+            <p class="thanks">💙 شكرًا لك على ثقتك بنا</p>
+            <button class="btn-primary" onclick="showPage('page-products')">تصفح جميع المواد ➔</button>
+            
+            <div class="features-grid">
+                <div class="feature-card">📖 <h3>مواد أكاديمية مُحدثة</h3></div>
+                <div class="feature-card">⚡ <h3>تسليم فوري بعد التحقق</h3></div>
+                <div class="feature-card">🛡️ <h3>دفع آمن وموثوق</h3></div>
+                <div class="feature-card">🎧 <h3>دعم سريع عبر واتساب</h3></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- الصفحة الثانية: المواد التعليمية (صفحة البيع) -->
+    <section id="page-products" class="page">
+        <div class="container">
+            <h2>جميع المواد المتاحة</h2>
+            <p class="subtitle">اختر المادة التي تحتاجها وابدأ رحلتك نحو التفوق</p>
+            
+            <!-- شريط الواتساب المباشر للاستفسار في صفحة البيع -->
+            <div class="whatsapp-banner">
+                <span>💬 للطلب المباشر أو الاستفسار عبر الواتساب: </span>
+                <a href="https://wa.me/252634500376" target="_blank" dir="ltr">+252 63 4500376</a>
+            </div>
+
+            <div class="filter-buttons">
+                <button class="active" onclick="filterProducts('all')">جميع المواد</button>
+                <button onclick="filterProducts('islamic')">النظم الإسلامية</button>
+                <button onclick="filterProducts('arabic')">اللغة العربية</button>
+                <button onclick="filterProducts('english')">اللغة الإنجليزية</button>
+                <button onclick="filterProducts('sharia')">العلوم الشرعية</button>
+            </div>
+
+            <div class="products-grid" id="products-list"></div>
+        </div>
+    </section>
+
+    <!-- الصفحة الثالثة: الشراء وكيفية الطلب (صفحة الشراء) -->
+    <section id="page-buy" class="page">
+        <div class="container">
+            <h2>كيفية الشراء والطلب</h2>
+            <p class="subtitle">عملية الشراء سهلة وبسيطة. فقط اتبع الخطوات التالية:</p>
+
+            <div class="steps-grid">
+                <div class="step-card">
+                    <div class="step-num">1</div>
+                    <h3>اختر المادة</h3>
+                    <p>تصفح المواد المتاحة وأضف ما تريد إلى السلة</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-num">2</div>
+                    <h3>أكمل الطلب</h3>
+                    <p>راجع طلبك وأدخل بياناتك أدناه</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-num">3</div>
+                    <h3>قم بالدفع</h3>
+                    <p>حول المبلغ عبر الوسائل المتاحة</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-num">4</div>
+                    <h3>أرسل الإيصال</h3>
+                    <p>أرسل صورة الإيصال إلى واتساب المتجر</p>
+                </div>
+            </div>
+
+            <div class="checkout-box">
+                <h3>تفاصيل الطلب والدفع</h3>
+                <div class="whatsapp-support-box">
+                    📱 رقم واتساب استقبال الطلبات والإيصالات:
+                    <br>
+                    <a href="https://wa.me/252634500376" target="_blank" class="wa-link" dir="ltr">+252 63 4500376</a>
+                </div>
+
+                <input type="text" id="cust-name" placeholder="الاسم الكامل">
+                <input type="text" id="cust-phone" placeholder="رقم هاتفك للتواصل">
+                <div class="cart-summary" id="cart-summary">سلتك فارغة حالياً.</div>
+                <button class="btn-primary btn-whatsapp" onclick="processCheckout()">
+                    إرسال الطلب وإيصال الدفع عبر واتساب 💬
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- الصفحة الرابعة: تسليم المواد -->
+    <section id="page-delivery" class="page">
+        <div class="container text-center">
+            <h2>تسليم المواد بعد التحقق من الدفع</h2>
+            <div class="delivery-card">
+                <div class="pdf-icon-wrapper">
+                    <span>PDF 📱</span>
+                </div>
+                <p>بمجرد وصول المبلغ والتحقق من الدفع سنقوم بإرسال الملفات المطلوبة إلى رقم واتسابك فوراً.</p>
+                <div class="whatsapp-badge">
+                    ✅ ستتلقى المواد في واتساب على هذا الرقم:
+                    <br>
+                    <a href="https://wa.me/252634500376" target="_blank" style="color:#2e7d32; font-weight:bold;" dir="ltr">+252 63 4500376</a>
+                </div>
+            </div>
+            <p class="footer-thanks">شكرًا وثقتك بنا <br> معاً نحو مستقبل أفضل 💙</p>
+        </div>
+    </section>
+
+    <script src="script.js"></script>
+</body>
+                  </html>
