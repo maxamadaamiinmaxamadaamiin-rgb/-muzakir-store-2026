@@ -3,208 +3,138 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#10251d">
-<title>مُذاكر | متجر الكتب التعليمية</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>مُذاكر | متجر تعليمي</title>
 <style>
 *{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#f5f7f5;color:#18251e}
-header{background:#10251d;color:white;padding:22px 16px;text-align:center}
-header h1{margin:0;font-size:30px}
-header p{color:#d6e8dc}
-nav{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;padding:14px;background:white}
-button,.btn{border:0;border-radius:9px;padding:12px 16px;cursor:pointer;font-size:15px;text-decoration:none;display:inline-block}
-nav button{background:#e8eee9;color:#10251d}
+body{margin:0;font-family:Arial,sans-serif;background:#f4f7f4;color:#183126}
+header{background:#103b2b;color:white;text-align:center;padding:25px}
+nav{display:flex;justify-content:center;flex-wrap:wrap;gap:8px;padding:12px;background:white}
+button,a{border:0;border-radius:8px;padding:12px 16px;cursor:pointer;text-decoration:none;font-size:15px}
+nav button{background:#e2eee6;color:#103b2b}
+main{max-width:950px;margin:22px auto;padding:0 14px}
+.panel{background:white;border-radius:14px;padding:22px;margin-bottom:18px}
+.hero{text-align:center;padding:38px 18px}
 .primary{background:#176b45;color:white}
-.whatsapp{background:#168b50;color:white}
-main{max-width:1000px;margin:24px auto;padding:0 15px}
-.panel{background:white;padding:20px;border-radius:14px;margin-bottom:20px;box-shadow:0 3px 14px #0000000a}
-.hero{text-align:center;padding:35px 20px}
-.products{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:15px}
-.product{border:1px solid #e0e7e1;padding:17px;border-radius:12px}
-.product h3{margin-top:0}
-.price{font-weight:bold;color:#176b45;font-size:20px}
-input,select{width:100%;padding:12px;margin:7px 0 13px;border:1px solid #ccd6ce;border-radius:8px;font-size:16px}
-.hidden{display:none!important}
-footer{text-align:center;padding:25px;color:#68736b}
-li{margin:10px 0}
+.products{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px}
+.product{border:1px solid #dce6de;border-radius:12px;padding:16px}
+.price{color:#176b45;font-weight:bold}
+input,select{width:100%;padding:12px;margin:7px 0 15px;border:1px solid #ccd7ce;border-radius:8px;font-size:16px}
+.hidden{display:none}
+footer{text-align:center;padding:25px;color:#637268}
 </style>
 </head>
 <body>
-
 <header>
-  <h1>📚 مُذاكر</h1>
-  <p>طريقك إلى المعرفة والنجاح</p>
+<h1>📚 مُذاكر</h1>
+<p>طريقك إلى المعرفة والنجاح</p>
 </header>
 
 <nav>
-  <button onclick="showPage('home')">الرئيسية</button>
-  <button onclick="showPage('shop')">المواد التعليمية</button>
-  <button onclick="showPage('cart')">🛒 السلة (<span id="count">0</span>)</button>
-  <button onclick="location.href='whatsapp.html'">تواصل معنا</button>
+<button onclick="page('home')">الرئيسية</button>
+<button onclick="page('shop')">المواد التعليمية</button>
+<button onclick="page('cart')">🛒 السلة (<span id="count">0</span>)</button>
+<a class="primary" href="whatsapp.html">تواصل معنا</a>
 </nav>
 
 <main>
 <section id="home" class="panel hero">
-  <h2>أهلًا بك في متجر مُذاكر</h2>
-  <p>مرحبًا بك! شكرًا لزيارتك متجرنا التعليمي.</p>
-  <p>اختر موادك التعليمية واطلبها بسهولة.</p>
-  <button class="primary" onclick="showPage('shop')">تصفح المواد</button>
-  <a class="btn whatsapp" href="whatsapp.html">صفحة واتساب</a>
+<h2>مرحبًا بك في متجر مُذاكر</h2>
+<p>اشترِ ملفاتك التعليمية واستعد للنجاح.</p>
+<p>شكرًا لزيارتك وثقتك بنا ❤️</p>
+<button class="primary" onclick="page('shop')">تصفح المواد</button>
 </section>
 
 <section id="shop" class="hidden">
-  <div class="panel">
-    <h2>المواد التعليمية</h2>
-    <p>هذه منتجات وأسعار تجريبية. غيّرها إلى منتجاتك الحقيقية.</p>
-    <label for="category">التصنيف</label>
-    <select id="category" onchange="renderProducts()">
-      <option value="الكل">جميع المواد</option>
-      <option value="النحو">النحو</option>
-      <option value="النظم الإسلامية">النظم الإسلامية</option>
-      <option value="اللغة العربية">اللغة العربية</option>
-    </select>
-  </div>
-  <div id="products" class="products"></div>
+<div class="panel">
+<h2>المواد التعليمية</h2>
+<label for="category">اختر التصنيف</label>
+<select id="category" onchange="render()">
+<option>الكل</option>
+<option>النحو</option>
+<option>النظم الإسلامية</option>
+<option>اللغة العربية</option>
+</select>
+<p>الأسعار أدناه تجريبية، ويمكن تعديلها.</p>
+</div>
+<div id="products" class="products"></div>
 </section>
 
-<section id="cart" class="hidden">
-  <div class="panel">
-    <h2>🛒 سلة المشتريات</h2>
-    <div id="cartItems">السلة فارغة.</div>
-    <h3>الإجمالي: <span id="total">0</span> دولار</h3>
-    <hr>
-    <h3>بيانات العميل</h3>
-    <form id="orderForm">
-      <label for="customer">الاسم الكامل</label>
-      <input id="customer" required placeholder="اكتب اسمك">
-
-      <label for="phone">رقم واتساب الخاص بك</label>
-      <input id="phone" required type="tel" placeholder="+252...">
-
-      <label for="payment">طريقة الدفع</label>
-      <select id="payment">
-        <option value="تحويل يدوي - يحتاج تأكيدًا">تحويل يدوي</option>
-        <option value="وسيلة دفع أخرى - يحتاج تأكيدًا">وسيلة دفع أخرى</option>
-      </select>
-
-      <button class="whatsapp" type="submit">إرسال الطلب عبر واتساب</button>
-    </form>
-    <p>تنبيه: إرسال الطلب لا يعني أن الدفع قد تم. يجب تأكيد الدفع يدويًا قبل تسليم الملفات.</p>
-  </div>
-</section>
-
-<section id="delivery" class="hidden panel">
-  <h2>تسليم المواد التعليمية</h2>
-  <p>يتم تسليم الملف بعد تأكيد الدفع من إدارة المتجر.</p>
-  <p>هذه الصفحة لا تتحقق من الدفع تلقائيًا في النسخة الحالية.</p>
+<section id="cart" class="hidden panel">
+<h2>سلة المشتريات</h2>
+<div id="items">السلة فارغة.</div>
+<h3>الإجمالي: <span id="total">0</span> دولار</h3>
+<hr>
+<h3>بيانات العميل</h3>
+<form id="order">
+<label for="name">الاسم</label>
+<input id="name" required placeholder="اسمك الكامل">
+<label for="phone">رقم هاتفك</label>
+<input id="phone" required type="tel" placeholder="+252...">
+<button class="primary" type="submit">إرسال الطلب عبر واتساب</button>
+</form>
+<p>سيتم تأكيد الدفع يدويًا قبل تسليم الملفات.</p>
 </section>
 </main>
 
-<footer>
-  © 2026 متجر مُذاكر — جميع الحقوق محفوظة
-</footer>
+<footer>© 2026 متجر مُذاكر</footer>
 
 <script>
-const products = [
-  {id:1,name:"بنك أسئلة النحو",category:"النحو",price:3,description:"ملف PDF للمراجعة والتدريب"},
-  {id:2,name:"بنك أسئلة النظم الإسلامية",category:"النظم الإسلامية",price:4,description:"أسئلة وأجوبة للمذاكرة"},
-  {id:3,name:"مراجعة اللغة العربية",category:"اللغة العربية",price:2,description:"ملخص تعليمي بصيغة PDF"}
+const products=[
+{id:1,name:"بنك أسئلة النحو",cat:"النحو",price:3},
+{id:2,name:"بنك أسئلة النظم الإسلامية",cat:"النظم الإسلامية",price:4},
+{id:3,name:"مراجعة اللغة العربية",cat:"اللغة العربية",price:2}
 ];
+let cart=[];
 
-let cart = [];
-
-function showPage(page){
-  ["home","shop","cart","delivery"].forEach(id=>{
-    document.getElementById(id).classList.toggle("hidden",id!==page);
-  });
-  if(page==="cart") renderCart();
-  window.scrollTo({top:0,behavior:"smooth"});
+function page(id){
+["home","shop","cart"].forEach(x=>
+document.getElementById(x).classList.toggle("hidden",x!==id));
+if(id==="cart")renderCart();
+window.scrollTo(0,0);
 }
-
-function renderProducts(){
-  const category=document.getElementById("category").value;
-  const list=products.filter(p=>category==="الكل"||p.category===category);
-  document.getElementById("products").innerHTML=list.map(p=>`
-    <article class="product">
-      <h3>${p.name}</h3>
-      <p>${p.description}</p>
-      <p>التصنيف: ${p.category}</p>
-      <p class="price">${p.price} دولار</p>
-      <button class="primary" onclick="addToCart(${p.id})">أضف إلى السلة</button>
-    </article>
-  `).join("");
+function render(){
+const cat=document.getElementById("category").value;
+document.getElementById("products").innerHTML=
+products.filter(p=>cat==="الكل"||p.cat===cat).map(p=>`
+<div class="product">
+<h3>${p.name}</h3>
+<p>ملف تعليمي بصيغة PDF</p>
+<p class="price">${p.price} دولار</p>
+<button class="primary" onclick="add(${p.id})">أضف إلى السلة</button>
+</div>`).join("");
 }
-
-function addToCart(id){
-  const item=cart.find(p=>p.id===id);
-  if(item)item.qty++;
-  else cart.push({...products.find(p=>p.id===id),qty:1});
-  updateCount();
-  alert("تمت إضافة المنتج إلى السلة");
+function add(id){
+const p=cart.find(x=>x.id===id);
+if(p)p.qty++;
+else cart.push({...products.find(x=>x.id===id),qty:1});
+document.getElementById("count").textContent=
+cart.reduce((s,p)=>s+p.qty,0);
+alert("أُضيف المنتج إلى السلة");
 }
-
-function updateCount(){
-  document.getElementById("count").textContent=
-    cart.reduce((sum,p)=>sum+p.qty,0);
-}
-
 function renderCart(){
-  const el=document.getElementById("cartItems");
-  if(!cart.length){
-    el.textContent="السلة فارغة.";
-  }else{
-    el.innerHTML=cart.map(p=>`
-      <div class="product">
-        <strong>${p.name}</strong>
-        <p>${p.price} دولار × ${p.qty}</p>
-        <button onclick="removeItem(${p.id})">حذف</button>
-      </div>
-    `).join("");
-  }
-  document.getElementById("total").textContent=
-    cart.reduce((sum,p)=>sum+p.price*p.qty,0);
+document.getElementById("items").innerHTML=cart.length?
+cart.map(p=>`<p>${p.name} × ${p.qty}
+<button onclick="removeItem(${p.id})">حذف</button></p>`).join("")
+:"السلة فارغة.";
+document.getElementById("total").textContent=
+cart.reduce((s,p)=>s+p.price*p.qty,0);
 }
-
 function removeItem(id){
-  cart=cart.filter(p=>p.id!==id);
-  updateCount();
-  renderCart();
+cart=cart.filter(p=>p.id!==id);
+document.getElementById("count").textContent=
+cart.reduce((s,p)=>s+p.qty,0);
+renderCart();
 }
-
-document.getElementById("orderForm").addEventListener("submit",function(e){
-  e.preventDefault();
-  if(!cart.length){
-    alert("أضف منتجًا إلى السلة أولًا");
-    return;
-  }
-
-  const customer=document.getElementById("customer").value.trim();
-  const phone=document.getElementById("phone").value.trim();
-  const payment=document.getElementById("payment").value;
-  const total=cart.reduce((sum,p)=>sum+p.price*p.qty,0);
-
-  const lines=cart.map(p=>
-    `- ${p.name} × ${p.qty} = ${p.price*p.qty} دولار`
-  ).join("\n");
-
-  const message=
-    `السلام عليكم، أريد طلبًا من متجر مُذاكر.\n\n`+
-    `الاسم: ${customer}\n`+
-    `رقم العميل: ${phone}\n\n`+
-    `المنتجات:\n${lines}\n\n`+
-    `الإجمالي: ${total} دولار\n`+
-    `طريقة الدفع: ${payment}\n`+
-    `أرجو تأكيد الطلب وإرسال تعليمات الدفع.`;
-
-  window.open(
-    "https://wa.me/252634500376?text="+encodeURIComponent(message),
-    "_blank"
-  );
+document.getElementById("order").addEventListener("submit",e=>{
+e.preventDefault();
+if(!cart.length){alert("أضف منتجًا أولًا");return;}
+const lines=cart.map(p=>`${p.name} × ${p.qty}: ${p.price*p.qty} دولار`).join("\n");
+const total=cart.reduce((s,p)=>s+p.price*p.qty,0);
+const msg=`السلام عليكم، أريد الطلب من متجر مُذاكر.\nالاسم: ${document.getElementById("name").value}\nهاتف العميل: ${document.getElementById("phone").value}\nالمنتجات:\n${lines}\nالإجمالي: ${total} دولار\nأرجو إرسال تعليمات الدفع وتأكيد الطلب.`;
+window.open("https://wa.me/252634500376?text="+encodeURIComponent(msg),"_blank");
 });
-
-renderProducts();
-updateCount();
+render();
 </script>
 </body>
 </html>
@@ -213,25 +143,24 @@ updateCount();
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>تواصل معنا | مُذاكر</title>
+<title>واتساب متجر مُذاكر</title>
 <style>
-body{font-family:Arial,sans-serif;background:#f2f7f3;display:grid;place-items:center;min-height:100vh;margin:0;text-align:center;padding:20px;box-sizing:border-box}
-.card{background:white;padding:30px 22px;border-radius:18px;max-width:420px;width:100%;box-sizing:border-box}
+body{font-family:Arial,sans-serif;background:#f2f7f3;display:grid;place-items:center;min-height:100vh;margin:0;padding:20px;text-align:center}
+.card{background:white;padding:30px 20px;border-radius:16px;max-width:420px;width:100%;box-sizing:border-box}
 h1{color:#176b45}
-a{display:block;padding:14px;margin-top:14px;border-radius:9px;text-decoration:none}
+a{display:block;padding:15px;margin-top:15px;border-radius:9px;text-decoration:none}
 .chat{background:#168b50;color:white}
-.home{background:#e5ece7;color:#10251d}
+.home{background:#e5ece7;color:#183126}
 </style>
 </head>
 <body>
 <div class="card">
-  <h1>📚 تواصل مع مُذاكر</h1>
-  <p>هل لديك سؤال حول المواد التعليمية أو الطلبات؟</p>
-  <p>نحن هنا لمساعدتك.</p>
-  <a class="chat" href="https://wa.me/252634500376?text=السلام%20عليكم،%20أريد%20التواصل%20مع%20متجر%20مذاكر">
-    تواصل معنا عبر واتساب
-  </a>
-  <a class="home" href="index.html">العودة إلى المتجر</a>
+<h1>📚 تواصل مع مُذاكر</h1>
+<p>نحن هنا لمساعدتك في طلباتك التعليمية.</p>
+<a class="chat" href="https://wa.me/252634500376?text=السلام%20عليكم،%20أريد%20التواصل%20مع%20متجر%20مذاكر">
+تواصل معنا عبر واتساب
+</a>
+<a class="home" href="index.html">العودة إلى المتجر</a>
 </div>
 </body>
 </html>
